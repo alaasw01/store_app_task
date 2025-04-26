@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:store_app_task/config/app_pages.dart';
-import 'package:store_app_task/contants/app_color.dart';
-import 'package:store_app_task/contants/app_images.dart';
-import 'package:store_app_task/contants/app_style.dart';
+import 'package:store_app_task/utils/store_app.dart';
 
 part '../../cubit/home_cubit.dart';
 part '../../cubit/home_state.dart';
