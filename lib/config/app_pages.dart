@@ -1,11 +1,14 @@
 class Routes {
-  static const String initial = _Paths.initial;
+  static const String initial = _Paths.login;
   static const String login = _Paths.login;
   static const String home = _Paths.home;
+  static const String productDetails = _Paths.productDetails;
+  static const String favorites = _Paths.favorites;
 }
 
 class _Paths {
-  static const String initial = '/';
   static const String login = '/login';
   static const String home = '/home';
+  static const String productDetails = '/productDetails';
+  static const String favorites = '/favorites';
 }

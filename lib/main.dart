@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Store app task',
       theme: ThemeData(
-        fontFamily: 'Comfortaa',
+        fontFamily: 'Fira Sans',
       ),
       routerConfig: router,
     );
