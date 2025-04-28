@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:store_app_task/config/app_routes.dart';
+import 'package:store_app_task/utils/cache_helper.dart';
+import 'package:store_app_task/utils/injector.dart' as injector;
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await injector.setupServiceLocator();
+  await CacheHelper().init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
