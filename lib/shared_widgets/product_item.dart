@@ -1,67 +1,133 @@
-part of '../features/home/presentation/view/home_view.dart';
+import 'package:flutter/material.dart';
+import 'package:store_app_task/features/home/data/model/products.dart';
+import 'package:store_app_task/utils/store_app.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({
     super.key,
     this.onFavoriteTap,
     this.onDetailsTap,
+    this.product,
   });
   final void Function()? onFavoriteTap;
   final void Function()? onDetailsTap;
+  final Product? product;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[200]!,
-              offset: const Offset(0, 3),
-              blurRadius: 4,
-              spreadRadius: 3,
-            )
-          ]),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: onDetailsTap,
-            child: Image.asset(
-              AppImages.product,
-              height: 100,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Product name',
-            style: AppStyles.textStyle16.copyWith(
-              color: AppColors.darkGreenColor,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey[200]!,
+                  offset: const Offset(0, 3),
+                  blurRadius: 4,
+                  spreadRadius: 3,
+                )
+              ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: onFavoriteTap,
-                child: const Icon(
-                  Icons.favorite_border,
-                  color: AppColors.darkGreenColor,
+                onTap: onDetailsTap,
+                child: Center(
+                  child: product?.thumbnail != null
+                      ? CachedNetworkImage(
+                          imageUrl: product!.thumbnail!,
+                          height: 120,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(
+                            child: SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CircularProgressIndicator(
+                                color: AppColors.orangeColor,
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        )
+                      : Image.asset(
+                          AppImages.product,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
-              const SizedBox(width: 6),
+              const SizedBox(height: 8),
               Text(
-                '500 EGP',
-                style: AppStyles.textStyle14.copyWith(
-                  color: AppColors.orangeColor,
-                  fontWeight: FontWeight.w700,
-                ),
+                product?.title ?? '',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: AppStyles.textStyle14,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '${product?.price ?? 0} EGP',
+                    style: AppStyles.textStyle14.copyWith(
+                      color: AppColors.orangeColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '${product?.rating ?? 0}',
+                        style: AppStyles.textStyle14.copyWith(
+                          color: AppColors.orangeColor,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Icon(
+                        Icons.star_rate_rounded,
+                        color: Colors.amber[400],
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          right: 10,
+          top: 10,
+          child: GestureDetector(
+            onTap: onFavoriteTap,
+            child: const Icon(
+              Icons.favorite_border,
+              size: 25,
+              color: AppColors.darkGreenColor,
+            ),
+          ),
+        ),
+        Positioned(
+            left: 6,
+            top: 5,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+              decoration: BoxDecoration(
+                color: AppColors.orangeColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Text(
+                product?.category ?? '',
+                style: AppStyles.textStyle14.copyWith(
+                  color: Colors.white,
+                ),
+              ),
+            )),
+      ],
     );
   }
 }

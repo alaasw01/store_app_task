@@ -5,9 +5,11 @@ class ProductImages extends StatelessWidget {
     super.key,
     this.isSelected,
     this.onTap,
+    this.imageUrl,
   });
   final bool? isSelected;
   final void Function()? onTap;
+  final String? imageUrl;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,11 +36,27 @@ class ProductImages extends StatelessWidget {
               )
             ]),
         child: Center(
-          child: Image.asset(
-            AppImages.product,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
+          child: (imageUrl?.isNotEmpty ?? false)
+              ? CachedNetworkImage(
+                  imageUrl: imageUrl!,
+                  height: 60,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(
+                        color: AppColors.lightOrangeColor,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Image.asset(
+                  AppImages.product,
+                  height: 60,
+                  fit: BoxFit.cover,
+                ),
         ),
       ),
     );

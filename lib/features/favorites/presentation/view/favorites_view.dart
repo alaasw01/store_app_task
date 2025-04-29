@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:store_app_task/shared_widgets/product_item.dart';
 import 'package:store_app_task/utils/store_app.dart';
 
 class FavoritesView extends StatelessWidget {

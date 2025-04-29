@@ -15,8 +15,11 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const HomeView(),
     ),
     GoRoute(
-      path: Routes.productDetails,
-      builder: (context, state) => const ProductDetailsView(),
+      path: '${Routes.productDetails}/:id',
+      builder: (context, state) {
+        final id = num.tryParse(state.pathParameters['id']!);
+        return ProductDetailsView(productId: id ?? 0);
+      },
     ),
     GoRoute(
       path: Routes.favorites,
