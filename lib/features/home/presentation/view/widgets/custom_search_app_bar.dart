@@ -3,8 +3,9 @@ part of '../home_view.dart';
 class CustomSearchAppBar extends StatelessWidget {
   const CustomSearchAppBar({
     super.key,
+    this.onFilterTap,
   });
-
+  final void Function()? onFilterTap;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -12,6 +13,8 @@ class CustomSearchAppBar extends StatelessWidget {
       children: [
         Expanded(
           child: TextFormField(
+            controller: context.read<HomeCubit>().searchController,
+            onChanged: (_) => context.read<HomeCubit>().searchProducts(),
             decoration: InputDecoration(
               isDense: true,
               hintText: 'search',
@@ -39,9 +42,12 @@ class CustomSearchAppBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 5),
-        Image.asset(
-          AppImages.filter,
-          height: 20,
+        GestureDetector(
+          onTap: onFilterTap,
+          child: const Icon(
+            Icons.filter_list_rounded,
+            size: 25,
+          ),
         ),
         const SizedBox(width: 5),
         Badge.count(
@@ -54,7 +60,21 @@ class CustomSearchAppBar extends StatelessWidget {
               size: 25,
             ),
           ),
-        )
+        ),
+        const SizedBox(width: 5),
+        BlocBuilder<ThemeCubit, ThemeData>(
+          builder: (context, state) {
+            return GestureDetector(
+              onTap: context.read<ThemeCubit>().toggleTheme,
+              child: Icon(
+                size: 25,
+                state.brightness == Brightness.light
+                    ? Icons.dark_mode
+                    : Icons.light_mode_outlined,
+              ),
+            );
+          },
+        ),
       ],
     );
   }

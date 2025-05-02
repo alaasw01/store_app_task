@@ -5,6 +5,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       : super(ProductDetailsInitial());
 
   int selectedItem = 0;
+  num? productId;
   changeSelectedProductImage(int item) {
     selectedItem = item;
     emit(ProductDetailsChangeProductImage());
@@ -16,7 +17,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     emit(ProductDetailsLoading());
 
     var result = await prodcutDetailsUseCase.call(id: id);
-
+    productId = id;
     result.fold(
       (failure) {
         emit(ProductDetailsFailed(

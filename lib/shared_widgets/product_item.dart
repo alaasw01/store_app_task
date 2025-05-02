@@ -9,10 +9,12 @@ class ProductItem extends StatelessWidget {
     this.onFavoriteTap,
     this.onDetailsTap,
     this.product,
+    this.tag,
   });
   final void Function()? onFavoriteTap;
   final void Function()? onDetailsTap;
   final Product? product;
+  final num? tag;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -37,21 +39,24 @@ class ProductItem extends StatelessWidget {
                 onTap: onDetailsTap,
                 child: Center(
                   child: product?.thumbnail != null
-                      ? CachedNetworkImage(
-                          imageUrl: product!.thumbnail!,
-                          height: 120,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const Center(
-                            child: SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: CircularProgressIndicator(
-                                color: AppColors.orangeColor,
+                      ? Hero(
+                          tag: tag!,
+                          child: CachedNetworkImage(
+                            imageUrl: product!.thumbnail!,
+                            height: 120,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                              child: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.orangeColor,
+                                ),
                               ),
                             ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
                         )
                       : Image.asset(
                           AppImages.product,
@@ -65,7 +70,9 @@ class ProductItem extends StatelessWidget {
                 product?.title ?? '',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: AppStyles.textStyle14,
+                style: AppStyles.textStyle14.copyWith(
+                  color: Colors.black,
+                ),
               ),
               const SizedBox(height: 8),
               Row(

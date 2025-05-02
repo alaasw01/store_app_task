@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:store_app_task/features/favorites/presentation/view/favorites_view.dart';
 import 'package:store_app_task/features/product_details/presentation/view/product_details.dart';
@@ -11,14 +12,27 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const LoginView(),
     ),
     GoRoute(
-      path: Routes.home,
-      builder: (context, state) => const HomeView(),
-    ),
+        path: Routes.home,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            transitionDuration: const Duration(milliseconds: 1000),
+            child: const HomeView(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: CurveTween(curve: Curves.linear).animate(animation),
+                child: child,
+              );
+            },
+          );
+        }),
     GoRoute(
       path: '${Routes.productDetails}/:id',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final id = num.tryParse(state.pathParameters['id']!);
-        return ProductDetailsView(productId: id ?? 0);
+        return MaterialPage(
+            key: state.pageKey, child: ProductDetailsView(productId: id ?? 0));
       },
     ),
     GoRoute(

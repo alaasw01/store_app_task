@@ -8,7 +8,12 @@ class ProdcutsUseCase {
 
   ProdcutsUseCase(this.productsRepo);
 
-  Future<Either<Failure, Products?>> call() async {
-    return await productsRepo.fetchProdcuts();
+  Future<Either<Failure, Products?>> call({
+    String? search,
+    num? limit,
+    num? skip,
+  }) async {
+    return await productsRepo.fetchProdcuts(
+        search: search, limit: limit, skip: skip);
   }
 }

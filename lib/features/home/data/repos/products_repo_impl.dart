@@ -12,9 +12,11 @@ class ProductsRepoImpl extends ProductsRepo {
   ProductsRepoImpl(this.productsRemoteDataSource);
 
   @override
-  Future<Either<Failure, Products>> fetchProdcuts() async {
+  Future<Either<Failure, Products>> fetchProdcuts(
+      {String? search, num? limit, num? skip}) async {
     try {
-      final Products? response = await productsRemoteDataSource.fetchProducts();
+      final Products? response = await productsRemoteDataSource.fetchProducts(
+          search: search, limit: limit, skip: skip);
       if (response != null) {
         return right(response);
       }

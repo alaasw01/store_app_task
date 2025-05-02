@@ -37,7 +37,7 @@ class CustomMaterialButton extends StatelessWidget {
         color: color ?? AppColors.darkGreenColor,
         child: Text(
           title,
-          style: AppStyles.textStyle18
+          style: AppStyles.textStyle16
               .copyWith(color: borderColor ?? Colors.white),
         ),
       ),
