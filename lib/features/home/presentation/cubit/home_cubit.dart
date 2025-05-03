@@ -1,12 +1,17 @@
 part of '../view/home_view.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(this.prodcutsUseCase) : super(HomeInitial());
+  HomeCubit({
+    required this.prodcutsUseCase,
+    required this.productsRepoImpl,
+  }) : super(HomeInitial());
 
   final ProdcutsUseCase prodcutsUseCase;
+  final ProductsRepoImpl productsRepoImpl;
+
   List<Product> allProducts = []; // Store full data
   List<Product> productsList = []; // Used for display (filtered or unfiltered)
-
+  List<ProductEntity> favoritesList = [];
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
 
@@ -20,9 +25,11 @@ class HomeCubit extends Cubit<HomeState> {
   bool isPriceRangeVisible = false;
   RangeValues rangeValues = const RangeValues(0, 2000);
 
-  void initCubit() {
+  void initCubit() async {
     _setupScrollListener();
-    getAllProducts();
+    await getAllProducts();
+    getFavoritesItems();
+    checkFavoriteItem();
   }
 
   onRangeChanged(RangeValues valuse) {
@@ -75,7 +82,7 @@ class HomeCubit extends Cubit<HomeState> {
 
         if (products != null && products.products != null) {
           allProducts.addAll(products.products!);
-          productsList = List.from(allProducts); // Initial display
+          productsList = List.from(allProducts);
           skip = allProducts.length;
           hasMore = allProducts.length < (products.total ?? 0);
 
@@ -120,6 +127,60 @@ class HomeCubit extends Cubit<HomeState> {
     productsList.clear();
     skip = 0;
     hasMore = true;
+  }
+
+  void addToFavorites(ProductEntity product) {
+    product.isFavorite = true;
+    // allProducts
+    //     .firstWhere((item) => item.productId == product.productId)
+    //     .isProdcutFavorite = product.isFavorite;
+    productsRepoImpl.addItemToFavorites(product);
+    getFavoritesItems();
+    emit(HomeSuccess());
+  }
+
+  void removeFromFavorites(ProductEntity product) {
+    product.isFavorite = false;
+    // allProducts
+    //     .firstWhere((item) => item.productId == product.productId)
+    //     .isProdcutFavorite = product.isFavorite;
+    productsRepoImpl.removeItemFromFavorites(product.productId ?? 0);
+    getFavoritesItems();
+  }
+
+  void getFavoritesItems() {
+    favoritesList = productsRepoImpl.getFavoritesItem();
+    emit(HomeSuccess());
+  }
+
+  onFavoriteTap(ProductEntity product) {
+    if (product.isFavorite == false) {
+      addToFavorites(product);
+    } else {
+      removeFromFavorites(product);
+    }
+  }
+
+  void goToFavoriteView() {
+    AppConstant.ctx?.go(Routes.favorites);
+    getFavoritesItems();
+  }
+
+  void onDetailsTap(Product product) {
+    // checkFavoriteItem();
+    // getFavoritesItems();
+    AppConstant.ctx!.go('${Routes.productDetails}/${product.id}');
+  }
+
+  checkFavoriteItem() {
+    for (Product element in allProducts) {
+      if (favoritesList.any((favorite) => favorite.productId == element.id)) {
+        element.isFavorite = true;
+      } else {
+        element.isFavorite = false;
+      }
+    }
+    emit(HomeSuccess());
   }
 
   @override

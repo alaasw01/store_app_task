@@ -50,16 +50,20 @@ class CustomSearchAppBar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 5),
-        Badge.count(
-          count: 2,
-          backgroundColor: AppColors.orangeColor,
-          child: GestureDetector(
-            onTap: () => context.go(Routes.favorites),
-            child: const Icon(
-              Icons.favorite_border_rounded,
-              size: 25,
-            ),
-          ),
+        BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return Badge.count(
+              count: context.read<HomeCubit>().favoritesList.length,
+              backgroundColor: AppColors.orangeColor,
+              child: GestureDetector(
+                onTap: () => context.read<HomeCubit>().goToFavoriteView(),
+                child: const Icon(
+                  Icons.favorite_border_rounded,
+                  size: 25,
+                ),
+              ),
+            );
+          },
         ),
         const SizedBox(width: 5),
         BlocBuilder<ThemeCubit, ThemeData>(

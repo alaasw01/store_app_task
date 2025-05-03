@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store_app_task/features/home/data/model/products.dart';
+import 'package:store_app_task/features/home/domain/entities/products_entity.dart';
 import 'package:store_app_task/utils/store_app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -10,11 +10,13 @@ class ProductItem extends StatelessWidget {
     this.onDetailsTap,
     this.product,
     this.tag,
+    this.isFavorite,
   });
   final void Function()? onFavoriteTap;
   final void Function()? onDetailsTap;
-  final Product? product;
+  final ProductEntity? product;
   final num? tag;
+  final bool? isFavorite;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -38,11 +40,11 @@ class ProductItem extends StatelessWidget {
               GestureDetector(
                 onTap: onDetailsTap,
                 child: Center(
-                  child: product?.thumbnail != null
+                  child: product?.imageUrl != null
                       ? Hero(
                           tag: tag!,
                           child: CachedNetworkImage(
-                            imageUrl: product!.thumbnail!,
+                            imageUrl: product!.imageUrl!,
                             height: 120,
                             fit: BoxFit.cover,
                             placeholder: (context, url) => const Center(
@@ -67,7 +69,7 @@ class ProductItem extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                product?.title ?? '',
+                product?.productTitle ?? '',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: AppStyles.textStyle14.copyWith(
@@ -79,7 +81,7 @@ class ProductItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${product?.price ?? 0} EGP',
+                    '${product?.productPrice ?? 0} EGP',
                     style: AppStyles.textStyle14.copyWith(
                       color: AppColors.orangeColor,
                       fontWeight: FontWeight.w700,
@@ -88,7 +90,7 @@ class ProductItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${product?.rating ?? 0}',
+                        '${product?.productRating ?? 0}',
                         style: AppStyles.textStyle14.copyWith(
                           color: AppColors.orangeColor,
                         ),
@@ -111,10 +113,10 @@ class ProductItem extends StatelessWidget {
           top: 10,
           child: GestureDetector(
             onTap: onFavoriteTap,
-            child: const Icon(
-              Icons.favorite_border,
+            child: Icon(
+              isFavorite == true ? Icons.favorite : Icons.favorite_border,
               size: 25,
-              color: AppColors.darkGreenColor,
+              color: AppColors.orangeColor,
             ),
           ),
         ),
@@ -128,7 +130,7 @@ class ProductItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50),
               ),
               child: Text(
-                product?.category ?? '',
+                product?.productCategory ?? '',
                 style: AppStyles.textStyle14.copyWith(
                   color: Colors.white,
                 ),

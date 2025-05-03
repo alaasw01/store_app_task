@@ -3,8 +3,9 @@ part of '../product_details.dart';
 class ProductImage extends StatelessWidget {
   const ProductImage({
     super.key,
+    this.isFavorite,
   });
-
+  final bool? isFavorite;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -76,13 +77,17 @@ class ProductImage extends StatelessWidget {
                         height: 170,
                       ),
               ),
-              const Positioned(
+              Positioned(
                 top: -15,
                 right: 10,
-                child: Icon(
-                  Icons.favorite_border,
-                  size: 30,
-                  color: AppColors.orangeColor,
+                child: InkWell(
+                  onTap: () =>
+                      context.read<ProductDetailsCubit>().onFavoriteTap(),
+                  child: Icon(
+                    isFavorite == true ? Icons.favorite : Icons.favorite_border,
+                    size: 30,
+                    color: AppColors.orangeColor,
+                  ),
                 ),
               ),
               Positioned(

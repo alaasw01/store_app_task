@@ -48,6 +48,7 @@ class Product extends ProductEntity {
   Meta? meta;
   List<String>? images;
   String? thumbnail;
+  bool? isProdcutFavorite;
 
   Product({
     this.id,
@@ -72,6 +73,7 @@ class Product extends ProductEntity {
     this.meta,
     this.images,
     this.thumbnail,
+    this.isProdcutFavorite,
   }) : super(
             productBrand: brand,
             productId: id,
@@ -80,6 +82,7 @@ class Product extends ProductEntity {
             productPrice: price,
             imageUrl: thumbnail,
             productCategory: category,
+            isFavorite: isProdcutFavorite,
             productRating: rating);
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
