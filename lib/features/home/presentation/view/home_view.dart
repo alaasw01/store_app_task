@@ -52,7 +52,7 @@ class HomeView extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 50),
                         CustomSearchAppBar(
                           onFilterTap:
                               context.read<HomeCubit>().showPriceRangeSlider,
@@ -108,7 +108,7 @@ class HomeView extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        mainAxisExtent: 216,
+                        mainAxisExtent: 225,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                       ),

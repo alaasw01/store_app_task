@@ -9,4 +9,5 @@ abstract class AppConstant {
   static const String email = 'email';
   static const String password = 'password';
   static const String favoritesBox = 'favoritesBox';
+  static const String productsBox = 'productsBox';
 }

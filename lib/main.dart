@@ -20,6 +20,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ProductEntityAdapter());
   await Hive.openBox<ProductEntity>(AppConstant.favoritesBox);
+  await Hive.openBox<ProductEntity>(AppConstant.favoritesBox);
   final themeCubit = ThemeCubit();
   await themeCubit.initTheme();
   runApp(MyApp(themeCubit: themeCubit));
@@ -35,16 +36,16 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider.value(value: themeCubit),
         BlocProvider(
-          create: (_) =>  HomeCubit(
-        productsRepoImpl: ProductsRepoImpl(
-          ProductsRemoteDataSourceImpl(),
-          ProductsLocalDataSourceImpl(),
-        ),
-        prodcutsUseCase: ProdcutsUseCase(ProductsRepoImpl(
-          ProductsRemoteDataSourceImpl(),
-          ProductsLocalDataSourceImpl(),
-        )),
-      )..initCubit(),
+          create: (_) => HomeCubit(
+            productsRepoImpl: ProductsRepoImpl(
+              ProductsRemoteDataSourceImpl(),
+              ProductsLocalDataSourceImpl(),
+            ),
+            prodcutsUseCase: ProdcutsUseCase(ProductsRepoImpl(
+              ProductsRemoteDataSourceImpl(),
+              ProductsLocalDataSourceImpl(),
+            )),
+          )..initCubit(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeData>(
@@ -60,4 +61,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

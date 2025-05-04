@@ -34,7 +34,7 @@ class FavoritesView extends StatelessWidget {
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              mainAxisExtent: 216,
+                              mainAxisExtent: 225,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) => ProductItem(
@@ -44,8 +44,8 @@ class FavoritesView extends StatelessWidget {
                             .favoritesList[index]
                             .productId,
                         product: context.read<HomeCubit>().favoritesList[index],
-                        onDetailsTap: () => context.go(
-                            '${Routes.productDetails}/${context.read<HomeCubit>().favoritesList[index].productId}'),
+                        // onDetailsTap: () => context.go(
+                        //     '${Routes.productDetails}/${context.read<HomeCubit>().favoritesList[index].productId}'),
                         onFavoriteTap: () {
                           context.read<HomeCubit>().removeFromFavorites(
                               context.read<HomeCubit>().favoritesList[index]);

@@ -124,9 +124,11 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void clearList() {
-    productsList.clear();
     skip = 0;
     hasMore = true;
+    isLoading = false;
+    allProducts.clear();
+    productsList.clear();
   }
 
   void addToFavorites(ProductEntity product) {

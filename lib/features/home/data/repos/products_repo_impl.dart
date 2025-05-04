@@ -15,14 +15,23 @@ class ProductsRepoImpl extends ProductsRepo {
   ProductsRepoImpl(this.productsRemoteDataSource, this.productsLocalDataSource);
 
   @override
-  Future<Either<Failure, Products>> fetchProdcuts(
-      {String? search, num? limit, num? skip}) async {
+  @override
+  Future<Either<Failure, Products>> fetchProdcuts({
+    String? search,
+    num? limit,
+    num? skip,
+  }) async {
     try {
       final Products? response = await productsRemoteDataSource.fetchProducts(
-          search: search, limit: limit, skip: skip);
+        search: search,
+        limit: limit,
+        skip: skip,
+      );
+
       if (response != null) {
         return right(response);
       }
+
       return left(
         ServerFailure.fromDiorError(
           DioException.badCertificate(requestOptions: RequestOptions()),

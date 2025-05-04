@@ -4,6 +4,7 @@ import 'package:store_app_task/features/home/domain/entities/products_entity.dar
 
 abstract class ProductsLocalDataSource {
   List<ProductEntity> getFavoriteProducts();
+  // List<Products>? getCachedProducts();
   void addFavorite(ProductEntity product);
   void removeFavorite(num id);
   bool isFavorite(num id);
@@ -31,4 +32,10 @@ class ProductsLocalDataSourceImpl extends ProductsLocalDataSource {
   bool isFavorite(num id) {
     return box.containsKey(id);
   }
+
+  // @override
+  // List<Products> getCachedProducts() {
+  //   var productsBox = Hive.box<Products>(AppConstant.productsBox);
+  //   return productsBox.values.toList();
+  // }
 }

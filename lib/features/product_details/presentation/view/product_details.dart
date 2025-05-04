@@ -67,7 +67,7 @@ class ProductDetailsView extends StatelessWidget {
                         children: [
                           Text(
                             product?.title ?? '',
-                            style: AppStyles.textStyle18.copyWith(
+                            style: AppStyles.textStyle16.copyWith(
                               color: AppColors.darkGreenColor,
                               fontWeight: FontWeight.bold,
                             ),
@@ -89,14 +89,14 @@ class ProductDetailsView extends StatelessWidget {
                       ),
                       Text(
                         '${product?.price ?? 0} EGP',
-                        style: AppStyles.textStyle16.copyWith(
+                        style: AppStyles.textStyle14.copyWith(
                           color: AppColors.orangeColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Text(
                     product?.description ?? '',
                     textAlign: TextAlign.center,
